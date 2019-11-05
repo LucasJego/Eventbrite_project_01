@@ -8,4 +8,11 @@ class User < ApplicationRecord
   # has_many :attendancies
   # has_many :events, through: :attendancies
   
+  # Après la création d'un nouvel user, il doit y avoir un envoi de mail à celui-ci
+  after_create :welcome_send
+
+  # Méthode qui appelle le mailer 'AttendantMailer' et lui fait exécuter la méthode 'welcome_email' avec comme entrée l'instance créée (d'où le 'self')
+  def welcome_send
+  	AttendantMailer.welcome_email(self).deliver_now
+  end
 end
